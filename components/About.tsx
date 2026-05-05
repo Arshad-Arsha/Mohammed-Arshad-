@@ -26,15 +26,15 @@ function StatCard({ value, suffix, label, isVisible, index }: {
   const count = useCounter(value, isVisible);
   return (
     <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      animate={isVisible ? { opacity: 1, x: 0 } : {}}
-      transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-      className="relative p-4 border-l-2 border-[rgba(124,92,252,0.3)]"
+      initial={{ opacity: 0, scale: 0.8, y: 30 }}
+      animate={isVisible ? { opacity: 1, scale: 1, y: 0 } : {}}
+      transition={{ duration: 0.7, delay: 0.4 + index * 0.12, ease: [0.16, 1, 0.3, 1] }}
+      className="glass glass-hover rounded-2xl p-6 glow-border flex flex-col gap-1"
     >
-      <div className="text-2xl font-bold text-heading">
-        {count}<span className="text-accent text-lg ml-1">{suffix}</span>
+      <div className="text-3xl font-light tracking-tight text-heading">
+        {count}<span className="text-white/40">{suffix}</span>
       </div>
-      <div className="text-[10px] tracking-widest uppercase text-[rgba(170,155,220,0.5)]">{label}</div>
+      <div className="text-xs tracking-widest uppercase text-white/35">{label}</div>
     </motion.div>
   );
 }
@@ -46,93 +46,136 @@ export default function About() {
   return (
     <section ref={sectionRef} id="about"
       className="relative py-32 md:py-48 px-6 overflow-hidden"
-      style={{ position: "relative", zIndex: 10 }}
+      style={{ position: "relative", zIndex: 10, background: "rgba(5,5,5,0.46)" }}
     >
-      {/* HUD line accents */}
-      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[rgba(124,92,252,0.2)] to-transparent" />
-      
+      <div className="pointer-events-none absolute -left-64 top-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/[0.02] blur-[120px]" />
+
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="flex flex-col lg:flex-row gap-20 items-start">
-          
-          {/* Status Window - Profile */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.8 }}
-            className="w-full lg:w-1/3"
-          >
-            <div className="relative p-1 bg-gradient-to-br from-[rgba(124,92,252,0.5)] to-transparent rounded-tr-[4rem]">
-              <div className="p-10 rounded-tr-[4rem] border border-[rgba(124,92,252,0.2)]">
-                <div className="w-24 h-24 rounded-2xl border border-[rgba(124,92,252,0.3)] flex items-center justify-center mb-8 relative group">
-                  <span className="text-4xl font-bold text-accent group-hover:scale-110 transition-transform">MA</span>
-                  <div className="absolute -inset-2 border border-[rgba(124,92,252,0.2)] rounded-2xl -z-10 group-hover:rotate-6 transition-transform" />
-                </div>
-                
-                <div className="mb-8">
-                  <div className="text-[10px] uppercase tracking-[0.3em] text-accent mb-2">Rank: S-Tier Developer</div>
-                  <h3 className="text-2xl font-bold text-heading">Mohammed Arshad</h3>
-                  <div className="flex gap-1 mt-2">
-                    {[1, 2, 3, 4, 5].map(i => (
-                      <div key={i} className="w-4 h-1 bg-accent rounded-full" />
-                    ))}
-                  </div>
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
 
-                <div className="space-y-4">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-[rgba(170,155,220,0.5)] uppercase tracking-widest">Strength</span>
-                    <span className="text-accent">React / Next.js</span>
-                  </div>
-                  <div className="h-1 w-full bg-[rgba(124,92,252,0.1)] rounded-full overflow-hidden">
-                    <motion.div initial={{ width: 0 }} animate={isInView ? { width: "95%" } : {}} className="h-full bg-accent" />
-                  </div>
-                  
-                  <div className="flex justify-between text-xs pt-2">
-                    <span className="text-[rgba(170,155,220,0.5)] uppercase tracking-widest">Agility</span>
-                    <span className="text-[rgba(0,212,255,1)]">Framer Motion</span>
-                  </div>
-                  <div className="h-1 w-full bg-[rgba(0,212,255,0.1)] rounded-full overflow-hidden">
-                    <motion.div initial={{ width: 0 }} animate={isInView ? { width: "90%" } : {}} className="h-full bg-[rgba(0,212,255,1)]" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Description & Stats */}
-          <div className="flex-1">
-             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8 }}
+          {/* LEFT — slide from left */}
+          <div className="flex flex-col gap-8">
+            <motion.div
+              initial={{ opacity: 0, x: -60, filter: "blur(10px)" }}
+              animate={isInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="text-[10px] uppercase tracking-[0.5em] text-accent mb-6 block font-bold">[ System Notification ]</span>
-              <h2 className="text-5xl md:text-7xl font-bold text-heading mb-10 leading-tight">
-                Infinite <span className="gradient-text">Growth</span><br />
-                Constant Detail.
+              <span className="hero-label mb-4 block">About</span>
+              <h2 className="text-[clamp(2.5rem,5vw,4.5rem)] font-extralight tracking-[-0.04em] text-heading leading-[1.05]">
+                <TypeWriter text="Mohammed Arshad" cursor={false} />
+                <br />
+                <span className="gradient-text">
+                  <TypeWriter text="P P" cursor />
+                </span>
               </h2>
-              
-              <p className="text-lg text-[rgba(170,155,220,0.8)] leading-relaxed mb-12 max-w-2xl font-light">
-                Results-driven Front-End Developer with <span className="text-accent font-bold">3+ years</span> of experience. 
-                Like a player in a dungeon, I constantly level up my skills in React.js and UI optimization. 
-                My quest is to build the most <span className="italic text-white">immersive and high-performance</span> web experiences.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-16">
-                <StatCard value={3}   suffix="+"    label="Level (Years)"  isVisible={isInView} index={0} />
-                <StatCard value={10}  suffix="K"    label="Daily Quest Score" isVisible={isInView} index={1} />
-                <StatCard value={20}  suffix="+"    label="Boss Projects"    isVisible={isInView} index={2} />
-              </div>
-
-              <div className="flex flex-wrap gap-4">
-                 <div className="px-6 py-3 border border-[rgba(124,92,252,0.3)] rounded-full text-xs uppercase tracking-widest text-accent flex items-center gap-3">
-                   <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                   Status: Active & Searching
-                 </div>
-              </div>
             </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0, x: -40 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="text-base md:text-lg text-white/55 leading-relaxed font-light max-w-lg"
+            >
+              Results-driven Front-End Developer with <span className="text-white/80">3+ years</span> of experience building scalable, user-centric web applications. Specialized in React.js, performance optimization, and translating Figma prototypes into pixel-perfect interfaces while applying{" "}
+              <span className="text-white/80 italic">Prompt Engineering</span> for AI-assisted workflows.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="flex items-center gap-4 text-sm text-white/35"
+            >
+              <div className="w-8 h-[1px] bg-white/20" />
+              <span className="tracking-[0.15em] uppercase text-[11px]">
+                Front-End &amp; MERN Stack Developer · Kozhikode, Kerala
+              </span>
+            </motion.div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <StatCard value={3}   suffix="+"    label="Years Exp."      isVisible={isInView} index={0} />
+              <StatCard value={10}  suffix="K+"   label="Daily Users"     isVisible={isInView} index={1} />
+              <StatCard value={20}  suffix="+"    label="Figma Prototypes" isVisible={isInView} index={2} />
+            </div>
           </div>
 
+          {/* RIGHT — zoom from right */}
+          <motion.div
+            initial={{ opacity: 0, x: 60, scale: 0.92, filter: "blur(12px)" }}
+            animate={isInView ? { opacity: 1, x: 0, scale: 1, filter: "blur(0px)" } : {}}
+            transition={{ duration: 1.1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="relative"
+          >
+            <div className="glass glow-border rounded-3xl p-8 md:p-10 relative overflow-hidden">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+              <div className="w-16 h-16 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center mb-8">
+                <span className="text-2xl font-light text-white/60">MA</span>
+              </div>
+
+              <h3 className="text-xl font-light text-heading mb-1 tracking-tight">Mohammed Arshad P P</h3>
+              <p className="text-sm text-white/40 tracking-[0.12em] uppercase mb-6">
+                Front-End &amp; MERN Stack Developer
+              </p>
+
+              {/* Key skills pills */}
+              <div className="flex flex-wrap gap-2 mb-6">
+                {["React.js", "TypeScript", "Tailwind CSS", "Node.js", "MongoDB", "Figma"].map(s => (
+                  <span key={s} className="px-3 py-1 rounded-full text-[11px] tracking-wider uppercase bg-white/[0.05] border border-white/[0.08] text-white/50">{s}</span>
+                ))}
+              </div>
+
+              {/* Contact details */}
+              <div className="space-y-2 mb-6 text-xs text-white/35 font-light">
+                <div className="flex items-center gap-2">
+                  <span className="text-white/20">✉</span>
+                  <a href="mailto:mohammedarshadpp123@gmail.com" className="hover:text-white/60 transition-colors">mohammedarshadpp123@gmail.com</a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-white/20">☎</span>
+                  <span>(+91) 8848614036</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-white/20">📍</span>
+                  <span>Ramanattukara, Kozhikode, Kerala 673633</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 pt-6 border-t border-white/[0.06]">
+                <div className="w-2 h-2 rounded-full bg-emerald-400/80 animate-pulse" />
+                <span className="text-xs text-white/35 tracking-widest uppercase">Open to opportunities</span>
+              </div>
+            </div>
+
+            <motion.a
+              href="/Mohammed_Arshad_CV.docx"
+              download
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 5, delay: 1, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -top-6 -left-6 glass rounded-2xl p-4 border border-white/[0.08] group hover:bg-white/[0.1] transition-all cursor-pointer z-20 pointer-events-auto"
+            >
+              <div className="text-xs text-white/35 tracking-widest uppercase mb-1 flex items-center gap-2">
+                CV
+                <motion.span
+                  animate={{ y: [0, 2, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  className="text-emerald-400/80"
+                >
+                  ↓
+                </motion.span>
+              </div>
+              <div className="text-sm font-light text-white/70 group-hover:text-emerald-400/90 transition-colors">Download Document</div>
+            </motion.a>
+
+            <motion.div
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -bottom-6 -right-6 glass rounded-2xl p-4 border border-white/[0.08]"
+            >
+              <div className="text-xs text-white/35 tracking-widest uppercase mb-1">Education</div>
+              <div className="text-sm font-light text-white/70">BCA · ISBM University</div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>
