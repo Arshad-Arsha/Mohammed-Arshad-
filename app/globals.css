@@ -4,14 +4,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Solo Leveling Design Tokens ─────────────────────────────────────── */
 :root {
-  --bg: #050505;
-  --surface: #0b0b0b;
-  --border: rgba(255, 255, 255, 0.08);
-  --heading: rgba(255, 255, 255, 0.92);
-  --body: rgba(255, 255, 255, 0.62);
-  --accent: #ffffff;
-  --muted: rgba(255, 255, 255, 0.28);
+  --bg:      #060912;          /* deep abyss navy */
+  --surface: #0c1020;          /* dark dungeon floor */
+  --border:  rgba(120, 80, 255, 0.14);   /* violet rune border */
+  --heading: rgba(220, 210, 255, 0.94);  /* pale violet-white */
+  --body:    rgba(170, 155, 220, 0.65);  /* muted violet */
+  --accent:  #7c5cfc;          /* electric violet — primary */
+  --accent2: #00d4ff;          /* cyan-blue — secondary */
+  --gold:    #f0c040;          /* hunter rank gold */
+  --muted:   rgba(120, 100, 200, 0.30);
 }
 
 * {
@@ -36,70 +39,67 @@ body {
 }
 
 ::selection {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(124, 92, 252, 0.28);
   color: #fff;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 3px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg);
-}
+/* Scrollbar — violet rune */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(124, 92, 252, 0.35);
   border-radius: 99px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(124, 92, 252, 0.65);
 }
 
-/* Utility classes */
+/* ─── Utility Classes ──────────────────────────────────────────────────── */
 @layer utilities {
-  .text-heading {
-    color: var(--heading);
-  }
-  .text-body {
-    color: var(--body);
-  }
-  .text-muted {
-    color: var(--muted);
-  }
-  .bg-surface {
-    background-color: var(--surface);
-  }
-  .border-subtle {
-    border-color: var(--border);
-  }
+  .text-heading { color: var(--heading); }
+  .text-body    { color: var(--body); }
+  .text-muted   { color: var(--muted); }
+  .bg-surface   { background-color: var(--surface); }
+  .border-subtle { border-color: var(--border); }
 
-  /* Cinematic gradient text — white */
+  /* Solo Leveling gradient text — violet → cyan */
   .gradient-text {
     background: linear-gradient(
       135deg,
-      rgba(255, 255, 255, 0.95) 0%,
-      rgba(255, 255, 255, 0.60) 100%
+      #a78bfa 0%,
+      #7c5cfc 35%,
+      #00d4ff 100%
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  /* Glass effect — no blur, pure translucent */
+  /* Gold gradient text for special callouts */
+  .gradient-gold {
+    background: linear-gradient(135deg, #f0c040 0%, #fbbf24 60%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glass — dark dungeon panel */
   .glass {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(12, 16, 32, 0.72);
+    border: 1px solid rgba(120, 80, 255, 0.14);
+    backdrop-filter: blur(2px);
   }
 
   .glass-hover {
-    transition: background 0.3s ease, border-color 0.3s ease;
+    transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
   }
   .glass-hover:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(20, 24, 52, 0.88);
+    border-color: rgba(124, 92, 252, 0.38);
+    box-shadow: 0 0 24px rgba(124, 92, 252, 0.12);
   }
 
-  /* Magnetic glow */
+  /* Violet rune glow border */
   .glow-border {
     position: relative;
   }
@@ -111,12 +111,12 @@ body {
     padding: 1px;
     background: linear-gradient(
       135deg,
-      rgba(255, 255, 255, 0.15),
-      rgba(255, 255, 255, 0.02),
-      rgba(255, 255, 255, 0.1)
+      rgba(124, 92, 252, 0.45),
+      rgba(0, 212, 255, 0.10),
+      rgba(124, 92, 252, 0.25)
     );
     -webkit-mask: linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
+                  linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
@@ -134,15 +134,16 @@ body {
   }
 }
 
-/* Cinematic canvas overlay text */
+/* ─── Hero label — system notification style ──────────────────────────── */
 .hero-label {
   font-size: clamp(0.65rem, 1.2vw, 0.85rem);
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--accent);
+  opacity: 0.7;
 }
 
-/* Section transitions */
+/* ─── Section transitions ──────────────────────────────────────────────── */
 .section-fade {
   opacity: 0;
   transform: translateY(40px);
@@ -161,43 +162,19 @@ body {
   transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.stagger-children.visible > *:nth-child(1) {
-  opacity: 1;
-  transform: none;
-  transition-delay: 0ms;
-}
-.stagger-children.visible > *:nth-child(2) {
-  opacity: 1;
-  transform: none;
-  transition-delay: 100ms;
-}
-.stagger-children.visible > *:nth-child(3) {
-  opacity: 1;
-  transform: none;
-  transition-delay: 200ms;
-}
-.stagger-children.visible > *:nth-child(4) {
-  opacity: 1;
-  transform: none;
-  transition-delay: 300ms;
-}
+.stagger-children.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:0ms; }
+.stagger-children.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:100ms; }
+.stagger-children.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:200ms; }
+.stagger-children.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:300ms; }
 
-/* Animated border gradient */
+/* ─── Animated rune border ─────────────────────────────────────────────── */
 @keyframes borderRotate {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-.animated-border {
-  position: relative;
-}
+.animated-border { position: relative; }
 .animated-border::before {
   content: "";
   position: absolute;
@@ -206,26 +183,33 @@ body {
   padding: 1px;
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.0),
-    rgba(255, 255, 255, 0.25),
-    rgba(255, 255, 255, 0.0)
+    rgba(124, 92, 252, 0.0),
+    rgba(124, 92, 252, 0.55),
+    rgba(0, 212, 255, 0.35),
+    rgba(124, 92, 252, 0.0)
   );
   background-size: 200% 200%;
   animation: borderRotate 4s linear infinite;
   -webkit-mask: linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
+                linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
 }
 
-/* Smooth image rendering */
+/* ─── Violet ambient glow pulse ────────────────────────────────────────── */
+@keyframes violetPulse {
+  0%, 100% { opacity: 0.12; transform: scale(1); }
+  50%       { opacity: 0.22; transform: scale(1.08); }
+}
+
+/* Canvas */
 canvas {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
 }
 
-/* Loading bar */
+/* Loading bar — violet */
 .loading-bar {
   position: fixed;
   top: 0;
@@ -234,11 +218,32 @@ canvas {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.8),
+    rgba(124, 92, 252, 0.9),
+    rgba(0, 212, 255, 0.7),
     transparent
   );
   z-index: 9999;
   transition: width 0.3s ease;
+}
+
+
+/* ─── Loading Screen Animations ───────────────────────────────────────── */
+@keyframes glow-pulse {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(124, 92, 252, 0.4)); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 25px rgba(124, 92, 252, 0.8)); transform: scale(1.05); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2.5s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
 }
 
 /* TypeWriter cursor blink */
